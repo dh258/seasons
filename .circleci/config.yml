@@ -1,0 +1,17 @@
+version: 2.1
+jobs:
+    build:
+        working_directory: ~/seasons
+        docker:
+            - image: circleci/node:10.16.3
+        steps:
+            - checkout
+            - restore_cache:
+                key: dependency-cache-{{ checksum "yarn.lock" }}
+            - run:
+                name: Install dependencies
+                command: yarn
+            - save_cache:
+                key: dependency-cache-{{ checksum "yarn.lock" }}
+                paths:
+                    - ./node_modules
